@@ -1,33 +1,35 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <nav class="navbar navbar-expand-lg justify-content-middle d-flex px-3 pe-4">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto">
+              <li>
+
+              </li>
+            </ul>
+            <!-- LOGIN COMPONENT HERE -->
+            <Login />
+          </div>
+        </nav>
+
       </div>
-    </router-link>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
     </div>
-  </nav>
+    <div class="row">
+      <div class="col-12 text-center">
+        <router-link class="navbar-brand d-flex text-center" :to="{ name: 'Home' }">
+          <div class="d-flex flex-column align-items-center  fw-bold">
+            Home
+          </div>
+        </router-link>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -60,5 +62,4 @@ a:hover {
     height: 64px;
   }
 }
-
 </style>

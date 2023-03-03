@@ -8,8 +8,7 @@
       <div class="modal-body">
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
-          <input v-model="editable.name" required type="text" class="form-control" id="title"
-            aria-describedby="emailHelp">
+          <input v-model="editable.name" required type="text" class="form-control" id="name" aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
           <label for="coverImg" class="form-label">coverImg</label>
@@ -27,8 +26,8 @@
             aria-describedby="emailHelp">
         </div>
         <div class="mb-3">
-          <label for="date" class="form-label">Date</label>
-          <input v-model="editable.date" required type="date" class="form-control" id="coverImg"
+          <label for="date" class="form-label">Event Date</label>
+          <input v-model="editable.startDate" required type="date" class="form-control" id="coverImg"
             aria-describedby="emailHelp">
         </div>
         <label for="type" class="form-label">Type</label>

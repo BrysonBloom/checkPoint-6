@@ -5,6 +5,9 @@
   <footer class="bg-info">
     <Navbar />
   </footer>
+  <ModalComponent id="eventModal">
+    <EventForm />
+  </ModalComponent>
 </template>
 
 <script>

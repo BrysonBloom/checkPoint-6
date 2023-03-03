@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <nav class="navbar navbar-expand-lg justify-content-middle d-flex px-3 pe-4">
+        <nav class="navbar navbar-expand-lg justify-content-middle d-flex px-3 pe-4 sticky">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -17,26 +17,33 @@
             <Login />
           </div>
         </nav>
+        <div v-if="account.id == route.params.accountId">
 
+          <button v-if="account.id" class="btn btn-dark ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
+
+            New Event
+          </button>
+
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 text-center">
-        <router-link class="navbar-brand d-flex text-center" :to="{ name: 'Home' }">
-          <div class="d-flex flex-column align-items-center  fw-bold">
-            Home
-          </div>
-        </router-link>
-      </div>
-    </div>
+
   </div>
 </template>
 
 <script>
 import Login from './Login.vue'
+import { useRoute } from 'vue-router';
+import { AppState } from '../AppState';
+import { computed } from 'vue';
 export default {
   setup() {
-    return {}
+    const route = useRoute()
+
+    return {
+      route,
+      account: computed(() => AppState.account)
+    }
   },
   components: { Login }
 }

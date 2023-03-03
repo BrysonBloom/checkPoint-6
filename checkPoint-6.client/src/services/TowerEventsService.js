@@ -5,21 +5,22 @@ import { api } from "./AxiosService";
 
 class TowerEventsService {
     async getAllEvents() {
-        // logger.log("TowerEventsService.getAllEvents");
-
         const res = await api.get('api/events');
         logger.log(res.data);
-
-        let towerEvents = res.data.map(event => new TowerEvent(event));
-        // logger.log(towerEvents);
-
-
+        let towerEvents = res.data.map(event => new TowerEvent(event))
         AppState.towerEvents = towerEvents
-        logger.log(AppState.towerEvents[1].id)
-
-
     }
 
+    async getEventById(eventId) {
+        AppState.towerEvent = null
+        const res = await api.get('api/events/' + eventId)
+        AppState.towerEvent = new TowerEvent(res.data)
+    }
+
+    async createEvent(formData) {
+        const res = await api.post('api/events', formData)
+        logger.log(res.data)
+    }
 }
 
 export const towerEventsService = new TowerEventsService();

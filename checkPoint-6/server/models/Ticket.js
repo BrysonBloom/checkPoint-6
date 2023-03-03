@@ -1,5 +1,5 @@
 import { Schema } from "mongoose"
-import { defaultSchemaOptions, basicStringType } from "../db/Constants"
+import { defaultSchemaOptions } from "../db/Constants"
 
 export const TicketSchema = new Schema({
     eventId: { type: Schema.Types.ObjectId, required: true, ref: "Event" },
@@ -12,6 +12,4 @@ TicketSchema.virtual('profile', {
     localField: 'accountId',
     foreignField: '_id',
     justOne: true,
-
-
 })

@@ -6,6 +6,7 @@ class TowerEventsService {
         const foundEvent = await this.getEventById(eventId);
         if (!foundEvent) {
             throw new BadRequest("Event not found");
+            // @ts-ignore
         } else if (foundEvent.creatorId.toString() !== requestorId) {
             throw new Forbidden("Not authorized");
         }
@@ -17,10 +18,12 @@ class TowerEventsService {
     }
     async updateEvent(eventId, eventUpdate) {
         const foundEvent = await this.getEventById(eventId);
-        if (!foundEvent || foundEvent.isCanceled) {
+        if (!foundEvent) {
 
             throw new BadRequest("Event not found");
 
+        } else if (foundEvent.isCanceled) {
+            throw new Forbidden("Not authorized");
         }
         foundEvent.name = eventUpdate.name || foundEvent.name;
         foundEvent.type = eventUpdate.type || foundEvent.type;

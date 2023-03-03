@@ -30,6 +30,11 @@
           <input v-model="editable.startDate" required type="date" class="form-control" id="coverImg"
             aria-describedby="emailHelp">
         </div>
+        <div class="mb-3">
+          <label for="capacity" class="form-label">Max Capacity</label>
+          <input v-model="editable.capacity" required type="number" class="form-control" id="coverImg"
+            aria-describedby="emailHelp">
+        </div>
         <label for="type" class="form-label">Type</label>
         <select v-model="editable.type" class="form-select mb-3" aria-label="Default select example" id="category">
           <option selected value="convention">convention</option>

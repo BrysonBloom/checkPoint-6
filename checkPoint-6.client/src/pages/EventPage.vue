@@ -1,13 +1,13 @@
 <template>
     <div class="component">
-
+        <button v-if="account.id == route.params." class="btn btn-danger" @click="cancelEventById()">Cancel Event</button>
 
     </div>
 </template>
 
 
 <script>
-import { onMounted, computed, ref } from 'vue'
+import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { towerEventsService } from '../services/TowerEventsService'
@@ -19,15 +19,22 @@ export default {
         const route = useRoute()
         const router = useRouter()
 
-        async function getEventById() {
-            try {
-                const eventId = route.params.eventId
-                await towerEventsService.getEventById(eventId)
-            } catch (error) {
-                Pop.error(error)
+
+
+        return {
+            route,
+            account: computed(() => AppState.account),
+
+            async cancelEventById() {
+                try {
+                    const eventId = route.params.eventId
+                    await towerEventsService.cancelEventById(eventId)
+                    logger.log(eventId)
+                } catch (error) {
+                    Pop.error(error)
+                }
             }
         }
-        return {}
     }
 }
 </script>

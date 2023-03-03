@@ -21,6 +21,10 @@ class TowerEventsService {
         const res = await api.post('api/events', formData)
         logger.log(res.data)
     }
+
+    async cancelEventById(eventId) {
+        const res = await api.delete('api/events/' + eventId)
+    }
 }
 
 export const towerEventsService = new TowerEventsService();

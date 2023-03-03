@@ -17,7 +17,8 @@ class TowerEventsService {
     }
     async updateEvent(eventId, eventUpdate) {
         const foundEvent = await this.getEventById(eventId);
-        if (!foundEvent) {
+        if (!foundEvent || foundEvent.isCanceled) {
+
             throw new BadRequest("Event not found");
 
         }
@@ -37,7 +38,7 @@ class TowerEventsService {
     }
     async createEvent(body) {
         const towerEvent = await dbContext.TowerEvents.create(body);
-        await towerEvent.populate("creator");
+        await towerEvent.populate("creator attendeeCount");
         return towerEvent;
     }
     async getAllEvents() {

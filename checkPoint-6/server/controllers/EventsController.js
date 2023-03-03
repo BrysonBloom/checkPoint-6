@@ -23,7 +23,7 @@ export class EventsController extends BaseController {
             res.send(canceledEvent)
 
         } catch (error) {
-
+            next(error)
         }
     }
     updateEvent(req, res, next) {

@@ -8,20 +8,12 @@ export class TicketsController extends BaseController {
     constructor() {
         super('api/tickets')
         this.router
-            .get('', this.getTickets)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createTicket)
 
 
     }
-    getTickets(req, res, next) {
-        try {
 
-        } catch (error) {
-            next(error);
-        }
-
-    }
     async createTicket(req, res, next) {
         try {
             logger.log('create ticket')

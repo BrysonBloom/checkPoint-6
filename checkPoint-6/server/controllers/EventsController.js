@@ -13,7 +13,8 @@ export class EventsController extends BaseController {
             .post('', this.createEvent)
             .delete('/:eventId', this.cancelEvent)
 
-
+        // FIXME write out method to get tickets for an event here, reference getAlbumMembersByAlbumId in postIt (album controller)
+        // FIXME write out method to get comments for an event here, reference getPicturesInAlbum in postIt (album controller)
     }
     async cancelEvent(req, res, next) {
         try {
@@ -26,11 +27,11 @@ export class EventsController extends BaseController {
             next(error)
         }
     }
-    updateEvent(req, res, next) {
+    async updateEvent(req, res, next) {
         try {
             const eventId = req.params.eventId
             const eventUpdate = req.body
-            const updatedEvent = towerEventsService.updateEvent(eventId, eventUpdate)
+            const updatedEvent = await towerEventsService.updateEvent(eventId, eventUpdate)
             res.send(updatedEvent)
 
         } catch (error) {

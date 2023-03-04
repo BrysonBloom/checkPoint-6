@@ -68,8 +68,11 @@ export default {
       async createEvent() {
         try {
           const formData = editable.value
+          // FIXME return the newly created event in the service back to this function so we have access to the id of the new event
+          // FIXME make sure you alias out whatever is returned from the create event method
           await towerEventsService.createEvent(formData)
           editable.value = {}
+          // FIXME use the id from the object that we returned from the above method to router push the user to the event details page, use the carform in gregslist as an example
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)

@@ -10,6 +10,7 @@ class TicketsService {
         const foundEvent = await towerEventsService.getEventById(body.eventId)
         // @ts-ignore
         foundEvent.capacity--
+        // @ts-ignore
         foundEvent.save()
         return ticket
     }

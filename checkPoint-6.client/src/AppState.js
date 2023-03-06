@@ -14,5 +14,4 @@ export const AppState = reactive({
 
   comments: [],
 
-  eventParticipants: [],
 })

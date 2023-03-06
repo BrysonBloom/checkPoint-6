@@ -8,10 +8,7 @@
       </div>
       <div v-if="route.params == '/#/account'">
 
-        <button class="btn btn-dark ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
 
-          New Event
-        </button>
 
       </div>
     </div>

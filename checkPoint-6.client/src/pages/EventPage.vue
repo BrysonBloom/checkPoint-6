@@ -1,7 +1,4 @@
 <template>
-    <!-- FIXME style indication that event is sold out of cancelled, you've already done it on your card, do the same logic here -->
-
-    <!-- FIXME render all data from the active event on this page, use a v-if to see if the event is stored in the appstate -->
     <div v-if="towerEvent" class="container-fluid bg dark">
         <div class="row">
             <div class="col-10 m-auto">
@@ -11,12 +8,49 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-9 m-auto">
-                <p class="about-card">{{ towerEvent.description }}</p>
+            <div class="col-9 m-auto about-card">
+                <h5 class="card-title">{{ towerEvent.name }}
+                    <div v-if="towerEvent.isCanceled" class="btn btn-danger">
+                        Cancelled
+                    </div>
+                    <div v-if="towerEvent.capacity == 0" class="btn btn-warning">
+                        Sold Out
+                    </div>
+                </h5>
+                <p class="">description: {{ towerEvent.description }}</p>
+                <p>location: {{ towerEvent.location }}</p>
+                <p>: tickets remaining: {{ towerEvent.capacity }}</p>
+                <p>Time of event: {{ towerEvent.startDate.toLocaleDateString() }}</p>
+                <button v-if="!participating && towerEvent.capacity >= 1 && !towerEvent.isCanceled" @click="createTicket()"
+                    class="btn btn-info">Participate</button>
             </div>
         </div>
-        <div v-if="comment.id" class="row">
-            <div v-for="c in comment" class="col-8 m-auto py-2">
+        <div class="row">
+            <div class="col-12">
+                <div v-if="participants[0]" class="card bg-info">
+                    <div class="card-body">
+                        <div class="row">
+                            <div v-for="p in participants" class="col-1">
+                                <img class="rounded-circle participant" :title="p.profile.name" :src="p.profile.picture"
+                                    alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <form class="m-auto pt-5" style="width: 80vw;" @submit.prevent="postComment()">
+                <div class="input-group mb-3">
+                    <input v-model="editable.body" type="text" class="form-control" placeholder="Write a comment"
+                        aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button submit" id="button-addon2">Comment</button>
+                </div>
+            </form>
+
+        </div>
+        <div v-if="comment" class="row">
+            <div v-for="c in comment" class="col-8 m-auto py-3">
                 <CommentCard :comment="c" />
             </div>
         </div>
@@ -25,37 +59,38 @@
 
 
 
-        <button class="btn btn-danger" @click="cancelEventById()">Cancel Event</button>
+        <button v-if="account.id == towerEvent.creatorId" class="btn btn-danger" @click="cancelEventById()">Cancel
+            Event</button>
 
     </div>
-    <!-- FIXME only show create ticket button if event is not sold out or cancelled -->
-    <!-- FIXME render ticketholder data here with a v-for, make sure to show their name and image -->
-    <!-- FIXME render comments here with a v-for, make sure you drill into the creator object on each comment to pull out their name and picture to display on the page -->
 </template>
 
 
 <script>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState'
 import { logger } from '../utils/Logger'
 import { towerEventsService } from '../services/TowerEventsService'
 import { commentsService } from '../services/CommentsService'
+import { ticketsService } from '../services/TicketsService'
 import { useRoute, useRouter } from 'vue-router';
 import Pop from '../utils/Pop.js';
 import CommentCard from '../components/CommentCard.vue'
 
 export default {
     setup() {
+        const editable = ref({
+            category: 'misc'
+        })
         const route = useRoute()
         const router = useRouter()
 
-
-        // FIXME write a function that will get the ticket holders for this event using the route parameters
 
 
         onMounted(() => {
             getEventById()
             getEventComments()
+            getTicketHolders()
         })
 
         async function getEventById() {
@@ -78,23 +113,30 @@ export default {
                 Pop.error(error)
             }
         }
+        async function getTicketHolders() {
+            try {
+                const eventId = route.params.eventId
+                await ticketsService.getTicketHolders(eventId)
+            } catch (error) {
+                Pop.error(error)
+            }
+
+        }
 
         return {
             route,
+            editable,
             account: computed(() => AppState.account),
             towerEvent: computed(() => AppState.towerEvent),
             comment: computed(() => AppState.comments),
+            participants: computed(() => AppState.tickets),
+            participating: computed(() => AppState.tickets.find(t => t.profile.id == AppState.account.id)),
 
-            // FIXME write a computed that looks the tickets for this event, and tries to find a ticket with an accountId that matches the AppState.account.id (reference foundCollab from postIt). Use whatever computed property in a v-if to see if I should show the attend button
 
-            // FIXME write a form that will create a comment for this event
-
-            // FIXME write a function that will create a comment for this event
-
-            // FIXME write a function that will delete a comment for this event
-
-            // FIXME write a function that will create a ticket for this event, have an object formatted like {eventid: "some value here"}
-
+            async createTicket() {
+                const eventId = route.params.eventId
+                await ticketsService.createTicket(eventId)
+            },
 
             async cancelEventById() {
                 try {
@@ -111,6 +153,19 @@ export default {
                     await towerEventsService.getEventById(eventId)
                     // logger.log(eventId)
 
+                } catch (error) {
+                    Pop.error(error)
+                }
+            },
+
+            async postComment() {
+                try {
+                    const formData = editable.value
+                    logger.log(formData)
+                    const EID = route.params.eventId
+                    await commentsService.postComment(formData, EID)
+                    editable.value = {}
+                    await getEventComments()
                 } catch (error) {
                     Pop.error(error)
                 }
@@ -138,11 +193,14 @@ export default {
     width: auto;
     z-index: 3;
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
 
-
+    .participant {
+        height: 20px;
+        width: 20px;
+    }
 
 }
 </style>

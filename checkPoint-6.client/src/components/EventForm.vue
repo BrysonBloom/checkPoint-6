@@ -45,7 +45,7 @@
       </div>
       <div class="modal-footer">
         <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Create Album</button>
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Create Event</button>
       </div>
     </form>
   </div>
@@ -54,6 +54,7 @@
 
 <script>
 import { ref } from 'vue';
+import { router } from '../router';
 import { towerEventsService } from '../services/TowerEventsService';
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
@@ -68,11 +69,12 @@ export default {
       async createEvent() {
         try {
           const formData = editable.value
-          // FIXME return the newly created event in the service back to this function so we have access to the id of the new event
-          // FIXME make sure you alias out whatever is returned from the create event method
-          await towerEventsService.createEvent(formData)
+          logger.log(formData)
+
+          const newEvent = await towerEventsService.createEvent(formData)
           editable.value = {}
-          // FIXME use the id from the object that we returned from the above method to router push the user to the event details page, use the carform in gregslist as an example
+          router.push('events/' + newEvent.id)
+
         } catch (error) {
           logger.error(error)
           Pop.error(error.message)

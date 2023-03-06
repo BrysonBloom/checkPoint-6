@@ -21,7 +21,7 @@ class TowerEventsService {
         const res = await api.post('api/events', formData)
         logger.log(res.data)
         return res.data
-        //FIXME return res.data here
+
     }
 
     async cancelEventById(eventId) {

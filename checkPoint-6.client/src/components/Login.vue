@@ -22,10 +22,7 @@
           <div class="list-group">
             <router-link :to="{ name: 'Account' }">
               <div class="list-group-item dropdown-item list-group-item-action">
-                <div v-if="account.picture || user.picture">
-                  <img :src="account.picture || user.picture" alt="account photo" height="40" class="rounded" />
-                </div>
-
+                My Stuff
               </div>
             </router-link>
             <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">
@@ -40,14 +37,7 @@
               </router-link>
 
             </div>
-            <div class="list-group-item dropdown-item list-group-item-action">
-              <router-link :to="{ name: 'Profile', params: { accountId: user.id } }">
 
-                My Stuff
-
-              </router-link>
-
-            </div>
           </div>
         </div>
       </div>

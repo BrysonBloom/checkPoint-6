@@ -6,9 +6,9 @@
         <!-- LOGIN COMPONENT HERE -->
         <Login />
       </div>
-      <div v-if="account.id == route.params.accountId">
+      <div v-if="route.params == '/#/account'">
 
-        <button v-if="account.id" class="btn btn-dark ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
+        <button class="btn btn-dark ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
 
           New Event
         </button>

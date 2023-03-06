@@ -7,7 +7,7 @@ class TowerEventsService {
     async getAllEvents() {
         const res = await api.get('api/events');
         logger.log(res.data);
-        let towerEvents = res.data.map(event => new TowerEvent(event))
+        let towerEvents = res.data.reverse().map(event => new TowerEvent(event))
         AppState.towerEvents = towerEvents
     }
 
@@ -20,12 +20,15 @@ class TowerEventsService {
     async createEvent(formData) {
         const res = await api.post('api/events', formData)
         logger.log(res.data)
+        return res.data
         //FIXME return res.data here
     }
 
     async cancelEventById(eventId) {
         const res = await api.delete('api/events/' + eventId)
     }
+
+
 }
 
 export const towerEventsService = new TowerEventsService();

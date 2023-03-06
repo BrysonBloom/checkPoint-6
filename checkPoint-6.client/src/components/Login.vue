@@ -5,7 +5,16 @@
       Login
     </button>
     <div v-else>
+      <router-link :to="{ name: 'Account' }">
+        <div class="list-group-item dropdown-item list-group-item-action">
+          <div v-if="account.picture || user.picture">
+            <img :src="account.picture || user.picture" alt="account photo" height="40" class="rounded" />
+          </div>
+
+        </div>
+      </router-link>
       <div class="dropdown dropstart my-2 my-lg-0">
+
         <div type="button" class="text-light fs-2 selectable no-select" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="mdi mdi-menu"></i>
         </div>

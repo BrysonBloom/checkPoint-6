@@ -2,32 +2,19 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <nav class="navbar navbar-expand-lg justify-content-middle d-flex px-3 pe-4 sticky">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav me-auto">
-              <li>
 
-              </li>
-            </ul>
-            <!-- LOGIN COMPONENT HERE -->
-            <Login />
-          </div>
-        </nav>
-        <div v-if="account.id == route.params.accountId">
+        <!-- LOGIN COMPONENT HERE -->
+        <Login />
+      </div>
+      <div v-if="account.id == route.params.accountId">
 
-          <button v-if="account.id" class="btn btn-dark ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
+        <button v-if="account.id" class="btn btn-dark ms-2" data-bs-toggle="modal" data-bs-target="#eventModal">
 
-            New Event
-          </button>
+          New Event
+        </button>
 
-        </div>
       </div>
     </div>
-
   </div>
 </template>
 

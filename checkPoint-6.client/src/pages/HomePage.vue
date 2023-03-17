@@ -1,7 +1,7 @@
 <template>
   <div v-if="towerEvent" class="container-fluid">
     <div class="row">
-      <div class="col-12 bg-dark"><img class="p-3" alt="logo" src="Public/Logo.png" height="60" /></div>
+      <div class="col-12 bg-dark"><img class="p-3" alt="logo" src="/Public/Logo.png" height="60" /></div>
     </div>
     <div class="col-10 m-auto">
       <div class="bg-info rounded p-3 d-flex justify-content-around">
